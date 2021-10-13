@@ -46,3 +46,7 @@
 
 
 </footer>
+
+
+<!-- fonctions panier -->
+<script src="/theme/<?=$GLOBALS['theme']?>/social<?=$GLOBALS['min']?>.js"></script>
