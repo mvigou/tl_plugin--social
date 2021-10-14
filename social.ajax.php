@@ -6,7 +6,6 @@ if(@$_GET['mode'] || @$_POST) {
     include_once("../../api/db.php");// Connexion à la db
 }
 
-
 //------------------------
 // MODE APPEL XHR GET
 switch(@$_GET['mode'])
@@ -28,10 +27,16 @@ switch(@$_GET['mode'])
 			setcookie("autoload_edit", "true", time() + 60*60, $GLOBALS['path'], $GLOBALS['domain']);
 
         }
-        else {?>
+        else {
+            
+            $sel_membre = $connect->query("SELECT * FROM ".$table_user." WHERE id=".$_SESSION['uid']);
+            $res_membre = $sel_membre->fetch_assoc();
 
-            <script>reload();</script>
-        <?
+            // initialisation des infos de session
+            $_SESSION['nom'] = $res_membre['name'];
+            $_SESSION['info'] = json_decode($res_membre['info'],true);
+
+            echo '<script>reload();</script>';
         }
 
     break; 
@@ -43,30 +48,123 @@ switch(@$_GET['mode'])
     // publication
     case 'publication':
 
+        //@todo : 
         $post = json_decode($_POST['publication'],true);
 
-        if($post['type']=='event') $title = $post['titre']; else $title = time(); 
+        // créastion du titre du post
+        if($post['type']=='post') $title = $_SESSION['uid'].time(); else $title = $post['titre'];
 
-        // Ajoute d'une publication
-		$sql = "INSERT ".$table_content." SET ";
-		$sql .= "state = 'active', ";
-		$sql .= "title = '".addslashes($title)."', ";
-		$sql .= "tpl = '".addslashes('post')."', ";
-		$sql .= "url = '".$_SESSION['uid'].$title."', ";
-		$sql .= "lang = '".$lang."', ";
-		$sql .= "robots = 'noindex, nofollow', ";
-		$sql .= "type = '".$post['type']."', ";
-        $sql .= "content = '".$_POST['publication']."', ";
-		$sql .= "user_insert = '".(int)$_SESSION['uid']."', ";
-		$sql .= "date_insert = NOW() ";
-		
-		$connect->query($sql);
+        // On creer le contenu dans la BDD
+        $sql = "INSERT INTO ".$table_content." 
+                (state, title, tpl, url, lang, robots, type, content, user_insert, date_insert)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $connect->prepare($sql);
+
+        // assignation des valeurs
+        $stmt->bind_param(  
+            "ssssssssis", 
+            $statut,
+            $title,
+            $tpl,
+            $url,
+            $post_lang,
+            $robots,
+            $type,
+            $content ,
+            $user_insert,
+            $date_insert
+        );
+
+        $statut = 'active';
+        $title = addslashes($title);
+        $tpl = addslashes('publication');
+        $url = $title;
+        $post_lang = $lang;
+        $robots = 'noindex,nofollow';
+        $type = $post['type'];
+        $content = $_POST['publication'];
+        $user_insert = (int)$_SESSION['uid'];
+        $date_insert = date("Y-m-d H:i:s");
+
+        // execution de la requete
+        $stmt->execute();
 		
 		if($connect->error)// Si il y a une erreur
 			echo htmlspecialchars($sql)."\n<script>error(\"".htmlspecialchars($connect->error)."\");</script>";
-        else
-            echo "<script>reload();</script>";
+        else {
+            $lastId = $stmt->insert_id;
+            $stmt->close();
+        }
+            
+        // On creer le tag associé sil s'agit d'une catégorie
+        if($post['dans'] == 'Actualité' || $post['dans'] == 'Annonce' || $post['dans'] == 'Petite annonce') {
 
+            $sql = "INSERT INTO ".$table_tag." 
+                (id, zone, encode, name, ordre)
+                VALUES (?, ?, ?, ?, ?)";
+
+            $stmt = $connect->prepare($sql);    
+
+            // assignation des valeurs
+            $stmt->bind_param(  
+                "isssi", 
+                $id,
+                $zone,
+                $encode,
+                $name,
+                $ordre
+            );
+
+            $id = $lastId;
+            $zone = 'categorie';
+            $encode = make_url($post['dans']);
+            $name = $post['dans'];
+            $ordre = 1;
+
+            // execution de la requete
+            $stmt->execute();
+
+            if($connect->error)// Si il y a une erreur
+			    echo htmlspecialchars($sql)."\n<script>error(\"".htmlspecialchars($connect->error)."\");</script>";
+        }
+    
+        echo "<script>reload();</script>";
+        
+    break;
+
+    // modifier profil
+    case 'profil-modifier':
+
+        // préparation de la requête
+        $sql = "UPDATE ".$table_user." SET name = ? , info = ? WHERE id = ". $_SESSION['uid'];
+        $stmt = $connect->prepare($sql);
+        $stmt->bind_param("ss", $name, $info);
+
+        // alimentation des champs
+        $name = $_POST['nom'];
+        $info = $_POST['info'];
+
+        // execution de la requete
+        $stmt->execute();
+
+		if($connect->error)// Si il y a une erreur
+			echo htmlspecialchars($sql)."\n<script>error(\"".htmlspecialchars($connect->error)."\");</script>";
+        else {
+
+            // mise à jour des informations du profil
+            $_SESSION['nom'] = $_POST['nom'];
+            $_SESSION['info'] = json_decode($_POST['info'],true);
+
+            $stmt->close();
+
+           echo "<script>reload();</script>";
+        }
+    break;
+
+    case 'profil-photo' :
+
+        print_r($_POST);
     break;
 
     // deconnexion

@@ -1,6 +1,5 @@
 // cf. social.ajax.php
 
-
 // case : 'connexion'
 const connexion = document.querySelector("#connexion");
 
@@ -72,6 +71,39 @@ if(publication) {
 }
 //----
     
+// case : 'modification du profil'
+const profil = document.querySelector("#profil-modifier");
+
+if(profil) {
+
+    profil.addEventListener('submit', function(event){
+
+        event.preventDefault();
+    
+        // configuration de la requête
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', path+'theme/'+theme+'/social.ajax.php?mode=profil-modifier',true);
+    
+        // préparation des données
+        let data = new FormData(profil);
+        let values = Object.fromEntries(data.entries());
+    
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    
+        // envoi de la requête
+        xhr.send("nom="+values.name+"&info="+JSON.stringify(values));
+    
+        // gestion retour
+        xhr.onload = function() {
+    
+            const response = document.createRange().createContextualFragment(this.response);
+            document.body.append(response);
+    
+        }
+    }); 
+}   
+//----
 
 // case : 'deconnexion'
 var deconnexion = document.querySelector("[data-action='deconnexion']");
