@@ -6,26 +6,26 @@ if($connecte) {
 ?>
 
 <!--@todo externaliser-->
-<aside>
-	<div>
-		<h2>À la une</h2>
+<aside class="pam">
+	<div class="mw260p">
+		<?h2('a-la-une',array('class'=>'mtn', 'default' => 'À la une'))?>
 	</div>
 
-	<div>
-		<h2>Derniers évènement</h2>
+	<div class="mw260p">
+		<?h2('dernier-evenements',array('class'=>'mtn', 'default' => 'Derniers évènement'))?>
 	</div>
 </aside>
 
-<footer class="pas">
+<footer class="pas small">
 
-	<section class="mw960p center grid">
+	<section class="mw260p right plm prm">
 
-		<?php txt('nav-footer')?>
+		<?php span('nav-footer')?>
 
 	</section>
 	
 
-	<section class="mod w100">
+	<section class="mw260p right  plm prm">
 
 		<?php txt('webmaster')?>
 

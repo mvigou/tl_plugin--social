@@ -2,15 +2,15 @@
 
     <section class="tuile ptn clear">
 
-        <label for="texte"><?h1('titre','man')?></label>
+        <label for="texte"><?h2('titre-post','')?></label>
 
         <input type="radio" name="type" id="type-publication" value="post" hidden checked>
         <input type="radio" name="type" id="type-evenement" value="event" hidden>
 
-        <div id="type" class="mbt">
+        <div id="type" class="mbm clearfix">
 
-            <label for="type-publication">Publication</label>
-            <label for="type-evenement">Evènement</label>
+            <label for="type-publication" class="fl">Publication</label>
+            <label for="type-evenement" class="fl">Evènement</label>
 
         </div>
 
@@ -41,8 +41,6 @@
                 <label for="titre" class="block">Nom de l'évènement</label>
                 <input type="text" id="titre" name="titre" class="w100">
 
-               
-
                 <label for="adresse" class="block">Lieux de l'évènement</label>
                 <textarea id="adresse" name="adresse" class="w100" placeholder="Indiquer l'emplacement de l'évènement"></textarea>
 
@@ -56,7 +54,7 @@
 
             </div>
             
-            <textarea id="texte" name="texte" class="w100" placeholder="lorem ipsum" required></textarea>
+            <textarea id="texte" name="texte" class="w100" placeholder="Que souhaitez-vous partager ?" required></textarea>
 
         </div>
 
