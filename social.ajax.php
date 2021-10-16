@@ -136,6 +136,9 @@ switch(@$_GET['mode'])
     // modifier profil
     case 'profil-modifier':
 
+        print_r($_POST['info']);
+        print '<br>';
+
         // préparation de la requête
         $sql = "UPDATE ".$table_user." SET name = ? , info = ? WHERE id = ". $_SESSION['uid'];
         $stmt = $connect->prepare($sql);
@@ -153,8 +156,8 @@ switch(@$_GET['mode'])
         else {
 
             // mise à jour des informations du profil
-            $_SESSION['nom'] = $_POST['nom'];
-            $_SESSION['info'] = json_decode($_POST['info'],true);
+            $_SESSION['nom'] = $name;
+            $_SESSION['info'] = json_decode($info,true);
 
             $stmt->close();
 

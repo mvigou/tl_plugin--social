@@ -176,14 +176,13 @@ details {
 details summary::after {
 	content : '▸';
 	font-size: 1.4em;
-	display: inline-block;
-	vertical-align: bottom;
-	transform: translateY(-.5rem);
+	display: inline;
+	vertical-align: middle;
 }
 
 details[open] summary::after {
 	content : '▸';
-	transform: rotate(90deg)  translateY(0) translateX(-.5rem);
+	transform: rotate(90deg);
 }
 /* fil d'ariane */
 #ariane {
@@ -204,20 +203,19 @@ details[open] summary::after {
 #contact input[name='reponse'] { display: none; }
 
 #connexion section {
-	border: 1px solid #666;
+	border: 1px solid #ccc;
 	border-radius: 1rem;
 	background: #fff;
 	padding: 1.5rem 2rem;
-	max-width: 320px;
+	max-width: 960px;
 }
 
-	#connexion section input {
+	#connexion section input:not([type='checkbox']) {
 		border-radius: .3rem;
 		width: 100%;
 	}
 
 #connexion aside {
-	max-width: 320px;
 	padding: 1rem 1rem 1.5rem 1rem; 
 }
 
@@ -231,13 +229,18 @@ details[open] summary::after {
 
 details#configuration-connexion:not([open]) > summary {
 	border-bottom: 1px solid #ccc;
-	background: #E0E0E0;
-	padding: 0 .5rem;
 	border-radius: 1rem;
 }
 
 details#configuration-connexion > summary {
 	border-radius: 1rem 1rem 0 0;
+	background: #E0E0E0;
+	padding: 0 1.5rem;
+	border-bottom: 1px solid #ccc;
+}
+
+details#configuration-connexion > summary > i.fa-cog::before {
+	margin-right: .2rem;
 }
 
 details#configuration-connexion > div {
@@ -407,7 +410,7 @@ input {
 	line-height: normal;
 	background-color: #fff;
 	border: 1px solid #a9a9a9;
-    padding: 0.4em 0.5rem 0.5rem;
+    padding: .6em 0.7em;
 }
 
 input[type="checkbox"], input[type="radio"] {
@@ -1188,7 +1191,7 @@ header #logo { transition: opacity .5s; }
 		margin: .5rem;
 	}
 
-	header hr {
+	hr {
 		border: 0;
 		border-top: 1px solid #ccc;
 		height: 1px;

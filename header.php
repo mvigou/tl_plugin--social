@@ -20,21 +20,21 @@ else
 
 	<section class="pas ptm pbm">
 
-		<div class="<?if($res['tpl']!='connexion' && @$_SESSION['auth']['edit-page']) echo '';?>">
+		<div class="<?if($res['tpl']!='connexion' && !@$_SESSION['auth']['edit-page']) echo 'editable-hidden';?>">
 			<?if($res['tpl']!='connexion' && @$_SESSION['auth']['edit-page']) {?>
 
-				<details id="configuration-connexion" class="mw260p right mbl">
+				<details id="configuration-connexion" class="mw260p right mbs">
 
 					<summary>
-						<i class="fa-cog big"></i>
-						<span class="small mbm">Configuration page de connexion</span>
+						<i class="fa-cog big vam"></i>
+						<span class="small vam">Configuration écran connexion</span>
 					</summary>
 
 					<div>
 				
 			<?}?>
 
-					<a href="<?=$GLOBALS['home']?>"><?php media('logo', array('size' => '320', 'class' => 'w100'))?></a>
+					<?php media('logo', array('size' => '200', 'class' => 'w100'))?>
 					<?h1('titre','biggest black')?>
 					<?txt('presentation')?>
 		

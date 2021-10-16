@@ -3,7 +3,6 @@
 //fil d'ariane
 include_once('./theme/'.$GLOBALS['theme'].'/social.tuile-ariane.php');
 
-
 $mode = @array_keys($GLOBALS['filter'])[0];
 
 switch($mode) {
@@ -12,14 +11,16 @@ switch($mode) {
         echo 'defaut';
 	break;
 
+    // on met à jour les informations
+    // @todo: passer comme le formulaire de contact pour encoder les caractères spéciaux ?
     case 'modifier':
 
         ?>
 
-        <form id="profil-modifier">
+        <form id="profil-modifier" class="tuile">
 
             <?
-                if(@$_SESSION['nom']) echo '<h1>'.$_SESSION['nom'].'</h1>'; else h1('title');
+                if(@$_SESSION['nom']) echo '<h1 class="biggest">'.$_SESSION['nom'].'</h1>'; else h1('title','biggest');
             ?>
 
             <?txt('texte-rgpd')?>

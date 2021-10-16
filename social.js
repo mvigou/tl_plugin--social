@@ -1,4 +1,5 @@
 // cf. social.ajax.php
+// @todo: GESTION DES BALISES HTML ET CARACTERE SPECIAUX
 
 // case : 'connexion'
 const connexion = document.querySelector("#connexion");
@@ -55,7 +56,6 @@ if(publication) {
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
         // envoi de la requête
-        console.log();
         xhr.send("publication="+JSON.stringify(values));
 
         // gestion retour
@@ -92,6 +92,8 @@ if(profil) {
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     
         // envoi de la requête
+        console.log(JSON.stringify(values));
+        
         xhr.send("nom="+values.name+"&info="+JSON.stringify(values));
     
         // gestion retour

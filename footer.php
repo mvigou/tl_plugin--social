@@ -16,6 +16,10 @@ if($connecte) {
 	</div>
 </aside>
 
+<?
+}
+?>
+
 <footer class="pas small">
 
 	<section class="mw260p right plm prm">
@@ -34,9 +38,6 @@ if($connecte) {
 
 </footer>
 
-<?
-}
-?>
 
 
 <!-- fonctions panier -->
