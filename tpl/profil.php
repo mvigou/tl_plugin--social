@@ -17,25 +17,35 @@ switch($mode) {
 
         ?>
 
-        <form id="profil-modifier" class="tuile">
+        <form id="profil-modifier">
 
-            <?
-                if(@$_SESSION['nom']) echo '<h1 class="biggest">'.$_SESSION['nom'].'</h1>'; else h1('title','biggest');
-            ?>
+            <h1 class="pam man">Modifier le profil</h1>
+
+            <div class="tuile pbm clearfix mts">
+
+                <input type="file" id="photo" name="photo" hidden>
+                <label for="photo" class="fl">
+                    <img id="ma-photo" src="<?=$url_photo?>" alt="<?=@$_SESSION['nom']?>" width="100"/>
+                    <div class="small tc mtt"><i class="fa-upload mrt bigger"></i>Modifier ma photo</div>
+                </label>
+
+                
+                <?
+                    if(@$_SESSION['nom']) echo '<h2 class="">'.$_SESSION['nom'].'</h2>'; else h2('title','biggest');
+                ?>
+
+            </div>
+            
 
             <?txt('texte-rgpd')?>
 
-            <details open>
+            <details class="tuile ptm pbm" open>
 
-                <summary><h2 class="inbl man">Informations de contact</h2></summary>
+                <summary>
+                    <?h2('contact-titre',array('class' => 'inbl man', 'default' => 'Informations de contact', 'globals' => true))?>
+                </summary>
 
-                <article>
-
-                    <label for="photo">
-                        <div>Image de profil</div>
-                        <img id="ma-photo" src="<?=$url_photo?>" alt="<?=@$_SESSION['nom']?>" width="100"/>
-                    </label>
-                    <input type="file" id="photo" name="photo" hidden>
+                <article class="mts">
 
                     <label for="name" class="block">Votre nom</label>
                     <input type="text" id="name" name="name" placeholder="Prénom Nom" value="<?=@$_SESSION['nom']?>" required>
@@ -53,11 +63,13 @@ switch($mode) {
 
             </details>
            
-            <details>
+            <details class="tuile ptm pbm">
 
-                <summary><h2 class="inbl man">Mon activité</h2></summary>
+                <summary>
+                    <?h2('activite-titre',array('class' => 'inbl man', 'default' => 'Mon activité', 'globals' => true))?>
+                </summary>
 
-                <article>
+                <article class="mts">
 
                     <label for="raison-sociale" class="block">Nom commercial</label>
                     <input type="text" id="raison-sociale" name="raison-sociale" placeholder="Nom de mon activité" value="<?=@$_SESSION['info']['raison-sociale']?>">
@@ -71,6 +83,8 @@ switch($mode) {
                     <label for="adresse" class="block">Adresse</label>
                     <textarea id="adresse" name="adresse" class="block" placeholder="votre adresse (n'indiquez que les informations que vous souhaitez communiquer)"><?=@$_SESSION['info']['adresse']?></textarea>
 
+                    <br>
+
                     <input type="checkbox" id="stagiaires" name="stagiaires">
                     <label for="stagiaires" class="inbl">Je souhaite et je peux accueillir une personne en stage (observation, immersion, etc.)</label>
 
@@ -78,11 +92,13 @@ switch($mode) {
 
             </details>
 
-            <details>
+            <details class="tuile ptm pbm">
 
-                <summary><h2 class="inbl man">Mon parcours</h2></summary>
+                <summary>
+                    <?h2('parcours-titre',array('class' => 'inbl man', 'default' => 'Mon parcours', 'globals' => true))?>
+                </summary>
 
-                <article>
+                <article class="mts">
 
                     <label for="conpetences" class="block">Compétences & expertises</label>
                     <textarea id="conpetences" name="conpetences" class="block" placeholder=""><?=@$_SESSION['info']['conpetences']?></textarea>
@@ -120,7 +136,7 @@ switch($mode) {
                 </article>
             </details>-->
 
-            <div class="mtm">
+            <div class="mtm pam tc">
                 <button class="bt-primary">
                     Enregistrer les modifications
                 </button>

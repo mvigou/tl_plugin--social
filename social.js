@@ -56,7 +56,7 @@ if(publication) {
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
         // envoi de la requête
-        xhr.send("publication="+JSON.stringify(values));
+        xhr.send("publication="+encodeURIComponent(JSON.stringify(values)));
 
         // gestion retour
         xhr.onload = function() {
@@ -87,14 +87,12 @@ if(profil) {
         // préparation des données
         let data = new FormData(profil);
         let values = Object.fromEntries(data.entries());
-    
+
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     
         // envoi de la requête
-        console.log(JSON.stringify(values));
-        
-        xhr.send("nom="+values.name+"&info="+JSON.stringify(values));
+        xhr.send("nom="+values.name+"&info="+encodeURIComponent(JSON.stringify(values)));
     
         // gestion retour
         xhr.onload = function() {

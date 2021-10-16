@@ -20,7 +20,7 @@ else
 
 	<section class="pas ptm pbm">
 
-		<div class="<?if($res['tpl']!='connexion' && !@$_SESSION['auth']['edit-page']) echo 'editable-hidden';?>">
+		<div class="<?if(@$res['tpl']!='connexion' && !@$_SESSION['auth']['edit-page']) echo 'editable-hidden';?>">
 			<?if($res['tpl']!='connexion' && @$_SESSION['auth']['edit-page']) {?>
 
 				<details id="configuration-connexion" class="mw260p right mbs">

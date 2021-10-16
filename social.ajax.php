@@ -136,8 +136,7 @@ switch(@$_GET['mode'])
     // modifier profil
     case 'profil-modifier':
 
-        print_r($_POST['info']);
-        print '<br>';
+        //@todo: gestion des caractère html!!
 
         // préparation de la requête
         $sql = "UPDATE ".$table_user." SET name = ? , info = ? WHERE id = ". $_SESSION['uid'];
@@ -145,8 +144,8 @@ switch(@$_GET['mode'])
         $stmt->bind_param("ss", $name, $info);
 
         // alimentation des champs
-        $name = $_POST['nom'];
-        $info = $_POST['info'];
+        $name = strip_tags($_POST['nom']);
+        $info = strip_tags($_POST['info']);
 
         // execution de la requete
         $stmt->execute();
@@ -161,7 +160,7 @@ switch(@$_GET['mode'])
 
             $stmt->close();
 
-           echo "<script>reload();</script>";
+            echo "<script>reload();</script>";
         }
     break;
 
