@@ -2,6 +2,7 @@
 
 <div>
 <?php
+// @TODO : gerer les required selon le type de publication
 //fil d'ariane
 include_once('./theme/'.$GLOBALS['theme'].'/social.tuile-ariane.php');
 
@@ -43,7 +44,8 @@ include_once('./theme/'.$GLOBALS['theme'].'/social.tuile-post.php');
 		".$tc.".user_insert = ".$tu.".id 
 	)";
 
-	$sql.=" WHERE (".$tc.".type='post') AND ".$tc.".lang='".$lang."'
+	$sql.=" WHERE (".$tc.".tpl='publication') 
+	AND ".$tc.".lang='".$lang."'
 	ORDER BY ".$tc.".date_insert DESC
 	LIMIT ".$start.", ".$num_pp;
 
@@ -105,8 +107,12 @@ include_once('./theme/'.$GLOBALS['theme'].'/social.tuile-post.php');
 							<?}?>
 						</div>
 						
-
-						<?=$content_fiche['texte']?>
+						<div>
+							<a href="<?=$res_fiche['url']?>" title="acceder à la publication">
+								<h3 class="man"><?=$content_fiche['titre']?></h3>
+								<span class="black"><?=$content_fiche['texte']?></span>
+							</a>
+						</div>
 					</p>
 
 					<aside class="mtm big">

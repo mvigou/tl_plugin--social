@@ -128,16 +128,6 @@ else
 
 				</div>
 
-				<hr>
-
-				
-				<!-- outils -->
-				<div>
-					<ul class="nav unstyled pan">
-						<li><a href="https://portail.ouvre-boites44.coop/" target="_blank" title="" class="fa-th-large">Portail Ouvre-boite</a></li>
-					</ul>
-				</div>
-
 			</div>
 
 		<?

@@ -9,28 +9,21 @@ if(connexion) {
     connexion.addEventListener('submit', function(event){
 
         event.preventDefault();
-    
+        
+        const formData = new FormData(connexion);
+
         // configuration de la requête
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', path+'theme/'+theme+'/social.ajax.php?mode=connexion',true);
-    
-        // préparation des données
-        let data = new FormData(connexion);
-        let values = Object.fromEntries(data.entries());
-    
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    
-        // envoi de la requête
-        xhr.send("email="+values.email+"&password="+values.password);
+        xhr.open('POST', path+'theme/'+theme+'/social.ajax.php?mode=connexion');
     
         // gestion retour
         xhr.onload = function() {
-    
             const response = document.createRange().createContextualFragment(this.response);
             document.body.append(response);
-    
         }
+
+        xhr.send(formData);
+
     }); 
 }   
 //----
@@ -44,27 +37,20 @@ if(publication) {
 
         event.preventDefault();
 
+        const formData = new FormData(publication);
+
         // configuration de la requête
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', path+'theme/'+theme+'/social.ajax.php?mode=publication',true);
-
-        // préparation des données
-        let data = new FormData(publication);
-        let values = Object.fromEntries(data.entries());
-
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
-        // envoi de la requête
-        xhr.send("publication="+encodeURIComponent(JSON.stringify(values)));
-
+        xhr.open('POST', path+'theme/'+theme+'/social.ajax.php?mode=publication');
+        
         // gestion retour
         xhr.onload = function() {
-
             const response = document.createRange().createContextualFragment(this.response);
             document.body.append(response);
-
         }
+
+        // envoi de la requête
+        xhr.send(formData);
         
     });
 

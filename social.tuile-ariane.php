@@ -9,7 +9,7 @@
     foreach($ariane as $key => $val) {
         if($key==0)
 
-            echo'<li><a href="../" class="icon-accueil" title="retourner à la page d\'accueil">Accueil</a></li>';
+            echo'<li><a href="../" class="icon-accueil" title="retourner à la page d\'accueil"><i class="fa-home big"></i> Accueil</a></li>';
 
         else {
 

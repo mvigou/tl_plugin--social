@@ -48,11 +48,14 @@ switch(@$_GET['mode'])
     // publication
     case 'publication':
 
-        //@todo : 
-        $post = json_decode($_POST['publication'],true);
-
-        // créastion du titre du post
-        if($post['type']=='post') $title = $_SESSION['uid'].time(); else $title = $post['titre'];
+        //var_dump($_POST);
+        $_POST['publication'] = array_merge(
+            $_POST['publication'], 
+            array(
+                'titre' => $_POST['titre'],
+                'dans' => $_POST['dans']
+            )
+        );
 
         // On creer le contenu dans la BDD
         $sql = "INSERT INTO ".$table_content." 
@@ -77,13 +80,13 @@ switch(@$_GET['mode'])
         );
 
         $statut = 'active';
-        $title = addslashes($title);
+        $title = addslashes($_POST['titre']);
         $tpl = addslashes('publication');
-        $url = $title;
+        $url = make_url($_SESSION['uid'].time());
         $post_lang = $lang;
         $robots = 'noindex,nofollow';
-        $type = $post['type'];
-        $content = $_POST['publication'];
+        $type = $_POST['type'];
+        $content = json_encode($_POST['publication'], JSON_UNESCAPED_UNICODE);
         $user_insert = (int)$_SESSION['uid'];
         $date_insert = date("Y-m-d H:i:s");
 
@@ -94,40 +97,43 @@ switch(@$_GET['mode'])
 			echo htmlspecialchars($sql)."\n<script>error(\"".htmlspecialchars($connect->error)."\");</script>";
         else {
             $lastId = $stmt->insert_id;
+
+                // On creer le tag associé sil s'agit d'une catégorie
+            if($_POST['dans'] == 'Actualité' || $_POST['dans'] == 'Annonce' || $_POST['dans'] == 'Petite annonce') {
+
+                $sql = "INSERT INTO ".$table_tag." 
+                    (id, zone, encode, name, ordre)
+                    VALUES (?, ?, ?, ?, ?)";
+
+                $stmt = $connect->prepare($sql);    
+
+                // assignation des valeurs
+                $stmt->bind_param(  
+                    "isssi", 
+                    $id,
+                    $zone,
+                    $encode,
+                    $name,
+                    $ordre
+                );
+
+                $id = $lastId;
+                $zone = 'categorie';
+                $encode = make_url($_POST['dans']);
+                $name = $_POST['dans'];
+                $ordre = 1;
+
+                // execution de la requete
+                $stmt->execute();
+
+                if($connect->error)// Si il y a une erreur
+                    echo htmlspecialchars($sql)."\n<script>error(\"".htmlspecialchars($connect->error)."\");</script>";
+            }
+
             $stmt->close();
         }
             
-        // On creer le tag associé sil s'agit d'une catégorie
-        if($post['dans'] == 'Actualité' || $post['dans'] == 'Annonce' || $post['dans'] == 'Petite annonce') {
-
-            $sql = "INSERT INTO ".$table_tag." 
-                (id, zone, encode, name, ordre)
-                VALUES (?, ?, ?, ?, ?)";
-
-            $stmt = $connect->prepare($sql);    
-
-            // assignation des valeurs
-            $stmt->bind_param(  
-                "isssi", 
-                $id,
-                $zone,
-                $encode,
-                $name,
-                $ordre
-            );
-
-            $id = $lastId;
-            $zone = 'categorie';
-            $encode = make_url($post['dans']);
-            $name = $post['dans'];
-            $ordre = 1;
-
-            // execution de la requete
-            $stmt->execute();
-
-            if($connect->error)// Si il y a une erreur
-			    echo htmlspecialchars($sql)."\n<script>error(\"".htmlspecialchars($connect->error)."\");</script>";
-        }
+        
     
         echo "<script>reload();</script>";
         

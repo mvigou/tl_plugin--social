@@ -48,6 +48,12 @@
             body footer {
                 border: 0;
             }
+
+            body main {
+                grid-column-start: 2;
+                grid-row-start: 1;
+                grid-row-end: 3;
+            }
     }
 
     /* > 1366px : full hd */
@@ -77,22 +83,20 @@
 
         <hr>
 
-        <aside class="clearfix">
+        <aside class="clearfix mbn">
 
-            <div>
+            <input type="checkbox" name="rememberme" id="rememberme" value="1">
 
-                <input type="checkbox" name="rememberme" id="rememberme">
+            <label for="rememberme" class="inline" style="text-transform: none;">Se souvenir de moi !</label>
 
-                <label for="rememberme" class="inline" style="text-transform: none;">Se souvenir de moi !</label>
-
-            </div>
-        
-            <a href="javascript:void(0)" id="oublie" class="">mot de passe oublié</a>
-
-        <aside>
+        </aside>
 
     </section>
 
-    
+    <aside class="mtm tc">
+
+        <a href="javascript:void(0)" id="oublie" class="">mot de passe oublié</a>
+
+    </aside>
 
 </form>

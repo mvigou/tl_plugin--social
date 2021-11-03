@@ -29,7 +29,7 @@ if($connecte) {
 	</section>
 	
 
-	<section class="mw260p right  plm prm">
+	<section class="mw260p right mts  plm prm">
 
 		<?php txt('webmaster')?>
 
