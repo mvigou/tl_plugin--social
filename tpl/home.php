@@ -1,5 +1,5 @@
-<?php
+<?php if(!$GLOBALS['domain']) exit; ?>
 
-    @include_once('publications-liste.php');
-    
+<?php
+	@include_once('produits-liste.php');
 ?>

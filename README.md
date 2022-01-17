@@ -1,2 +1,2 @@
-# translucide-plugin-social
-réseau social basé sur le CMS Translucide
+# tl_plugins-stripe
+Plugin stripe pour Translucide
