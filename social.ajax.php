@@ -144,14 +144,73 @@ switch(@$_GET['mode'])
 
         //@todo: gestion des caractère html!!
 
+        
+
+        var_dump($_FILES);
+        
+
+        //traitement de la photo de profil
+        if(@$_FILES['file']) {
+
+            //controle de la taille
+            if($_FILES['size'] > $_POST['MAX_FILE_SIZE'])
+                exit('<script>error("'.__("The file exceeds the send size limit of ") . ini_get("upload_max_filesize").'");</script>');
+
+            
+            // Récupération de l'extension
+            $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+        
+            // Hack protection : contre les doubles extensions = Encode le nom de fichier + supprime l'extension qui ne passe pas l'encode et l'ajoute après
+            $filename = encode(basename($_FILES['file']['name'], ".".$ext)).".".strtolower($ext);
+
+            $dir = 'avatar/uid_'.$_SESSION['uid'];
+
+            $src_file = 'media/'. ($dir?$dir.'/':'') . $filename;
+		    $root_file = $_SERVER['DOCUMENT_ROOT'] . $GLOBALS['path'] . $src_file;
+
+            // Check si le fichier est déjà sur le serveur
+            /*if(file_exists($root_file))
+                exit('<script>error("'.__("A file with the same name already exists").'");</script>');*/
+
+            // Check le type mime côté serveur
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $file_infos['mime'] = finfo_file($finfo, $_FILES['file']['tmp_name']);
+            finfo_close($finfo);
+
+            // Vérifie que le type mime est supporté (Hack protection : contre les mauvais mimes types) 
+            // + Le fichier tmp ne contient pas de php ou de javascript
+            if(file_check('file'))
+            {
+                @mkdir(dirname($root_file), 0705, true);
+
+                // Upload du fichier
+                if(move_uploaded_file($_FILES['file']['tmp_name'], $root_file))
+                {
+                    // Type mime
+                    list($type, $ext) = explode("/", $file_infos['mime']);
+
+                    // Si c'est une image
+                    if($type == "image") {
+                        img_process($root_file,$dir, 150, 150, true);
+
+                        //$_POST['info'] = array_merge($_POST['info'], array('photo' => img_process($root_file,$dir, 150, 150, true)));	
+                    }	
+                }			
+            }
+
+        }
+
+        // alimentation des champs
+        var_dump($_POST);
+
+
         // préparation de la requête
         $sql = "UPDATE ".$table_user." SET name = ? , info = ? WHERE id = ". $_SESSION['uid'];
         $stmt = $connect->prepare($sql);
         $stmt->bind_param("ss", $name, $info);
 
-        // alimentation des champs
-        $name = strip_tags($_POST['nom']);
-        $info = strip_tags($_POST['info']);
+        $name = strip_tags($_POST['info']['name']);
+        $info = json_encode($_POST['info'], JSON_UNESCAPED_UNICODE);
 
         // execution de la requete
         $stmt->execute();
@@ -162,11 +221,11 @@ switch(@$_GET['mode'])
 
             // mise à jour des informations du profil
             $_SESSION['nom'] = $name;
-            $_SESSION['info'] = json_decode($info,true);
+            $_SESSION['info'] = $_POST['info'];
 
             $stmt->close();
 
-            echo "<script>reload();</script>";
+            //echo "<script>reload();</script>";
         }
     break;
 

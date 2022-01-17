@@ -69,7 +69,7 @@ switch($mode) {
 							//@todo : resize miniature;
 				?>
 
-				<a href="<?=make_url($res['url'], array_merge($GLOBALS['filter'], array("membre" => $res_fiche['id'], "domaine" => true)))?>" class="tdn">
+				<a href="<?=make_url('profil', array_merge($GLOBALS['filter'], array("membre" => $res_fiche['id'], "domaine" => true)))?>" class="tdn">
 					
 					<div class="fl mrs">
 						<img src="<?=$url_photo?>" alt="<?=@$_SESSION['nom']?>" width="50"/>
@@ -148,20 +148,6 @@ switch($mode) {
 				</p>
 
 			</div>
-		
-			<article class="relative tuile clearfix ptm pbm">
-
-
-					
-					
-
-					
-
-					
-
-				</a>
-
-			</article>
 
 		</section>
 

@@ -66,27 +66,19 @@ if(profil) {
 
         event.preventDefault();
     
-        // configuration de la requête
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', path+'theme/'+theme+'/social.ajax.php?mode=profil-modifier',true);
-    
-        // préparation des données
-        let data = new FormData(profil);
-        let values = Object.fromEntries(data.entries());
+        const formData = new FormData(profil);
 
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    
-        // envoi de la requête
-        xhr.send("nom="+values.name+"&info="+encodeURIComponent(JSON.stringify(values)));
-    
-        // gestion retour
+        const files = document.querySelector("#file").files;
+        formData.append('file', files[0]);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', path+'theme/'+theme+'/social.ajax.php?mode=profil-modifier');
         xhr.onload = function() {
-    
             const response = document.createRange().createContextualFragment(this.response);
             document.body.append(response);
-    
         }
+        xhr.send(formData);
+
     }); 
 }   
 //----

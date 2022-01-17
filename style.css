@@ -391,7 +391,12 @@ button, input, optgroup, select, textarea {
 	margin: 0;
 	outline: none;
 }
-	textarea, input[type='text'] {border: 1px solid #a9a9a9; border-radius: .7rem; background: #fff; transition: all .05s; min-width: 60%;}
+	textarea, 
+	input[type='text'], 
+	input[type='tel'], 
+	input[type='email'], 
+	input[type='url'], 
+	input[type*='date'] {border: 1px solid #a9a9a9; border-radius: .7rem; background: #fff; transition: all .05s;}
 	input[type='text']:focus, textarea:focus { border: 1px solid #0250BB; box-shadow: 0px 0px 0px 2px #0250BB;  background: #fefefe;}
 	[type='checkbox'], [type='radio'] {border: 0; box-shadow: none;}
 	
